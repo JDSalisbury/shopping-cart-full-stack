@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MaintenanceController {
 
 	@Resource
-	CrudRepository<Potion, Long> potionRepo;
+	PotionRepository potionRepo;
 
 	@RequestMapping(path = "/potions",method = RequestMethod.POST )
 	public Potion createPotion(Potion incoming) {

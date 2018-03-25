@@ -12,13 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CauldronController {
-
+	
 	@Resource
-	private CrudRepository<Potion, Long> potionRepo;
+	private CartRepository cartRepo;
+	
+	@Resource
+	private PotionRepository potionRepo;
+
+
 
 	@RequestMapping(path = "/potions", method = RequestMethod.GET)
 	public Iterable<Potion> findPotions() {
-
 		return potionRepo.findAll();
 	}
 

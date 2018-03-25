@@ -22,7 +22,10 @@ public class CauldronMvcTest {
 	private MockMvc mvc;
 
 	@MockBean
-	private CrudRepository<Potion, Long> potionRepo;
+	private PotionRepository potionRepo;
+	
+	@MockBean 
+	private CartRepository cartRepo; 
 
 	@Test
 	public void shouldRetrievePotions() throws Exception {

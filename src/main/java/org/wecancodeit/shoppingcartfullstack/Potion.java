@@ -80,10 +80,6 @@ public class Potion {
 		return imageUrl;
 	}
 
-	
-	
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
