@@ -11,60 +11,51 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Cart {
-	
+
 	@Id
 	@GeneratedValue
 	private long id;
-	
-	
+
 	@OneToMany(mappedBy = "cart")
 	private List<Potion> potions;
 
 	private int quantity;
-	
 
 	public List<Potion> getPotions() {
 		return potions;
 	}
 
-
 	public long getId() {
 		return id;
 	}
 
-	public List<Potion> placePotions(Potion...salves) {
-		for(Potion salve : salves) {
+	public List<Potion> placePotions(Potion... salves) {
+		for (Potion salve : salves) {
 			potions.add(salve);
-			
+
 		}
 		return potions;
 	}
 
-	
-	public Cart(Potion...potion) {
+	public Cart(Potion... potion) {
 		this.potions = Arrays.asList(potion);
-		
+
 	}
-	
-	protected Cart() {}
-<<<<<<< HEAD
-	
-	public double getTotalPrice(Potion...brews) {
-		double	totalPrice = 0;
-		for(Potion price : brews) {
+
+	protected Cart() {
+	}
+
+	public double getTotalPrice(Potion... brews) {
+		double totalPrice = 0;
+		for (Potion price : brews) {
 			totalPrice += price.getPotionPrice();
 		}
-		return totalPrice ;
+		return totalPrice;
 	}
-=======
->>>>>>> 8501181f2b3f63fe6755fcfb0169af7eae12096e
-
 
 	public int getQuantity() {
-		quantity = potions.size();	
+		quantity = potions.size();
 		return quantity;
 	}
-	
-	
-	
+
 }

@@ -12,18 +12,9 @@ public class CauldronPopulator implements CommandLineRunner {
 	@Resource
 	private CartRepository cartRepo;
 	
-<<<<<<< HEAD
-	
-	
-=======
->>>>>>> 8501181f2b3f63fe6755fcfb0169af7eae12096e
 	@Override
 	public void run(String... args) throws Exception {
 		Cart cart = new Cart(); 
-		
-		
-<<<<<<< HEAD
-=======
 		Potion red = new Potion("Poultice","health","1", "/images/red-square.png",5.00);
 		potionRepo.save(red);
 		Potion blue = new Potion("Mana Regen","Mana","1", "/images/blue-magic.png",5.00);
@@ -43,7 +34,6 @@ public class CauldronPopulator implements CommandLineRunner {
 		cart = cartRepo.findOne(cartId);
 			
 		
->>>>>>> 8501181f2b3f63fe6755fcfb0169af7eae12096e
 		
 	}
 
