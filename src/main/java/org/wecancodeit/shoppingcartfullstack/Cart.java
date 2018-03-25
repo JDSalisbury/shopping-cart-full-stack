@@ -47,6 +47,7 @@ public class Cart {
 	}
 	
 	protected Cart() {}
+<<<<<<< HEAD
 	
 	public double getTotalPrice(Potion...brews) {
 		double	totalPrice = 0;
@@ -55,6 +56,8 @@ public class Cart {
 		}
 		return totalPrice ;
 	}
+=======
+>>>>>>> 8501181f2b3f63fe6755fcfb0169af7eae12096e
 
 
 	public int getQuantity() {

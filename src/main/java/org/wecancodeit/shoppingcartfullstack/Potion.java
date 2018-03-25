@@ -19,6 +19,11 @@ public class Potion {
 	
 	@ManyToOne
 	private Cart cart;
+<<<<<<< HEAD
+=======
+
+	private String imageUrl;
+>>>>>>> 8501181f2b3f63fe6755fcfb0169af7eae12096e
 	
 	public double getPotionPrice() {
 		return potionPrice;
@@ -60,7 +65,27 @@ public class Potion {
 		this.classification = classification;
 		this.level = level;
 		this.potionPrice = potionPrice;	
+<<<<<<< HEAD
 	}
+
+	protected Potion() {}; 
+	
+	
+=======
+	}
+	
+	public Potion(String itemName, String classification, String level, String imageUrl, double potionPrice) {
+		this.itemName = itemName;
+		this.classification = classification;
+		this.level = level;
+		this.imageUrl = imageUrl;
+		this.potionPrice = potionPrice;	
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+>>>>>>> 8501181f2b3f63fe6755fcfb0169af7eae12096e
 
 	protected Potion() {}; 
 	
