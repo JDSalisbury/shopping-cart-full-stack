@@ -21,156 +21,168 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class CauldronJpaTest {
-	
+
 	@Resource
-	private TestEntityManager testEntity; 
-	
-	
+	private TestEntityManager testEntity;
+
 	@Resource
-	private PotionRepository potionRepo; 
-	
+	private PotionRepository potionRepo;
+
 	@Resource
 	private CartRepository cartRepo;
-	
+
 	@Test
-	public void shouldInitializePotionRepository() {	
-		
+	public void shouldInitializePotionRepository() {
+
 	}
-	
+
 	@Test
 	public void shouldFindByNameForPotion() {
-		Potion red = new Potion("Red"); 
-		potionRepo.save(red); 
-		Potion testFind = potionRepo.findByItemName("Red"); 
-		
+		Potion red = new Potion("Red");
+		potionRepo.save(red);
+		Potion testFind = potionRepo.findByItemName("Red");
+
 		assertThat(testFind, is(red));
-		
+
 	}
-	
+
 	@Test
 	public void shouldFindByClassificationForPotion() {
-		Potion red = new Potion("Red","health","2"); 
-		potionRepo.save(red); 
-		Collection<Potion> testFind = potionRepo.findByClassification("health"); 
-		
-		
+		Potion red = new Potion("Red", "health", "2");
+		potionRepo.save(red);
+		Collection<Potion> testFind = potionRepo.findByClassification("health");
+
 		assertThat(testFind, contains(red));
 	}
 
 	@Test
 	public void shouldFindByClassificationWithTwoPotions() {
-		Potion red = new Potion("Red","health","1"); 
+		Potion red = new Potion("Red", "health", "1");
 		potionRepo.save(red);
-		Potion blue = new Potion("Super Red","health","1");
+		Potion blue = new Potion("Super Red", "health", "1");
 		potionRepo.save(blue);
-		
-	
-		Collection<Potion> testFind = potionRepo.findByClassification("health"); 
 
-		
-		assertThat(testFind, containsInAnyOrder(red,blue));
+		Collection<Potion> testFind = potionRepo.findByClassification("health");
+
+		assertThat(testFind, containsInAnyOrder(red, blue));
 	}
-	
-	
-	
+
 	@Test
 	public void shouldFindByLevelForPotion() {
-		Potion red = new Potion("Red","health","2"); 
+		Potion red = new Potion("Red", "health", "2");
 		potionRepo.save(red);
-		Potion blue = new Potion("Super Red","health","1");
+		Potion blue = new Potion("Super Red", "health", "1");
 		potionRepo.save(blue);
-		Potion green = new Potion("Blue","mana","1");
+		Potion green = new Potion("Blue", "mana", "1");
 		potionRepo.save(green);
 		Collection<Potion> testFind = potionRepo.findByLevel("1");
-		
 
-		assertThat(testFind, containsInAnyOrder(blue,green));
-	
+		assertThat(testFind, containsInAnyOrder(blue, green));
+
 	}
-	
-	
+
 	@Test
 	public void shouldSaveAndLoadPotionToCart() {
-		Potion red = new Potion("Red","health","2"); 
+		Potion red = new Potion("Red", "health", "2");
 		potionRepo.save(red);
-		Potion blue = new Potion("Super Red","health","1");
+		Potion blue = new Potion("Super Red", "health", "1");
 		potionRepo.save(blue);
-		Potion green = new Potion("Blue","mana","1");
+		Potion green = new Potion("Blue", "mana", "1");
 		potionRepo.save(green);
-		
+
+		Cart cart = new Cart();
+
+		cartRepo.save(cart);
+
+		testEntity.flush();
+		testEntity.clear();
+
+		long cartId = cart.getId();
+		cart = cartRepo.findOne(cartId);
+		cart.placePotions(red, blue, green);
+		Collection<Potion> testPotions = cart.getPotions();
+		assertThat(testPotions, containsInAnyOrder(red, blue, green));
+	}
+
+	@Test
+	public void shouldFindByPotionPrice() {
+		Potion red = new Potion("Red", "health", "2", 3.00);
+		potionRepo.save(red);
+		Potion blue = new Potion("Super Red", "health", "1", 6.00);
+		potionRepo.save(blue);
+		Potion green = new Potion("Blue", "mana", "1", 3.00);
+		potionRepo.save(green);
+
+		testEntity.flush();
+		testEntity.clear();
+
+		Collection<Potion> testPotions = potionRepo.findByPotionPrice(3.00);
+
+		assertThat(testPotions.size(), is(2));
+
+	}
+
+	@Test
+	public void shouldFindByPotionPriceSpecficItems() {
+		Potion red = new Potion("Red", "health", "2", 3.00);
+		potionRepo.save(red);
+		Potion blue = new Potion("Super Red", "health", "1", 6.00);
+		potionRepo.save(blue);
+		Potion green = new Potion("Blue", "mana", "1", 3.00);
+		potionRepo.save(green);
+
+		testEntity.flush();
+		testEntity.clear();
+
+		Collection<Potion> testPotions = potionRepo.findByPotionPrice(3.00);
+
+		assertThat(testPotions, containsInAnyOrder(red, green));
+	}
+
+	@Test
+	public void shouldGetQuantityFromPotionCollectionFromCart() {
+		Potion red = new Potion("Red", "health", "2");
+		potionRepo.save(red);
+		Potion blue = new Potion("Super Red", "health", "1");
+		potionRepo.save(blue);
+		Potion green = new Potion("Blue", "mana", "1");
+		potionRepo.save(green);
+
 		Cart cart = new Cart();
 		
 		cartRepo.save(cart);
-		
-		
+
 		testEntity.flush();
 		testEntity.clear();
 		
 		long cartId = cart.getId();
 		cart = cartRepo.findOne(cartId);
-		cart.placePotions(red,blue,green);
-		Collection<Potion> testPotions = cart.getPotions();
-		assertThat(testPotions, containsInAnyOrder(red,blue,green));
+		cart.placePotions(red, blue, green);
+		int testCart = cart.getQuantity();
+
+		assertThat(testCart, is(3));
+
 	}
-	
+
 	@Test
-	public void shouldFindByPotionPrice() {
-		Potion red = new Potion("Red","health","2", 3.00); 
+	public void shouldGetTotalPriceOfCart() {
+
+		Potion red = new Potion("Red", "health", "2", 3.00);
 		potionRepo.save(red);
-		Potion blue = new Potion("Super Red","health","1", 6.00);
+		Potion blue = new Potion("Super Red", "health", "1", 6.00);
 		potionRepo.save(blue);
-		Potion green = new Potion("Blue","mana","1",3.00);
+		Potion green = new Potion("Blue", "mana", "1", 3.00);
 		potionRepo.save(green);
 
-		testEntity.flush();
-		testEntity.clear();
-		
-		Collection<Potion> testPotions = potionRepo.findByPotionPrice(3.00); 
-		
-		assertThat(testPotions.size(), is(2));
-		
-	}
-	
-	@Test
-	public void shouldFindByPotionPriceSpecficItems() {
-		Potion red = new Potion("Red","health","2", 3.00); 
-		potionRepo.save(red);
-		Potion blue = new Potion("Super Red","health","1", 6.00);
-		potionRepo.save(blue);
-		Potion green = new Potion("Blue","mana","1",3.00);
-		potionRepo.save(green);
-
-		testEntity.flush();
-		testEntity.clear();		
-		
-		Collection<Potion> testPotions = potionRepo.findByPotionPrice(3.00);
-		
-		assertThat(testPotions, containsInAnyOrder(red,green));
-	}
-	
-	@Test 
-	public void shouldGetQuantityFromPotionCollectionFromCart() {
-		Potion red = new Potion("Red","health","2"); 
-		potionRepo.save(red);
-		Potion blue = new Potion("Super Red","health","1");
-		potionRepo.save(blue);
-		Potion green = new Potion("Blue","mana","1");
-		potionRepo.save(green);
-		
 		Cart cart = new Cart();
-		
+
 		cartRepo.save(cart);
-		
-		
+
 		testEntity.flush();
 		testEntity.clear();
-		
-		
-		int testQuantity;
-		assertThat(cart.getQuantity(), is(3));
-		
+
+		assertThat(cart.getTotalPrice(red, blue, green), is(12.00));
+
 	}
-	
-	
-	
-	}
+
+}

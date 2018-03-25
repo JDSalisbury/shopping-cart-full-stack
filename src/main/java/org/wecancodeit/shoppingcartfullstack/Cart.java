@@ -47,6 +47,14 @@ public class Cart {
 	}
 	
 	protected Cart() {}
+	
+	public double getTotalPrice(Potion...brews) {
+		double	totalPrice = 0;
+		for(Potion price : brews) {
+			totalPrice += price.getPotionPrice();
+		}
+		return totalPrice ;
+	}
 
 
 	public int getQuantity() {
