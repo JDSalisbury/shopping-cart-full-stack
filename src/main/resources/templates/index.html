@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-        <link rel="stylesheet" href="../static/css/layout.css">
-        <link rel="stylesheet" href="../static/css/style.css">
+        <link rel="stylesheet" href="./css/layout.css"></link>
+        <link rel="stylesheet" href="./css/style.css"></link>
 
 	<title>The Cauldron</title>
 </head>
 <body>
     <div class="container">
         <header class="head">
-            <img class="main__logo" src="../static/images/cauldron.png" />
+            <img class="main__logo" src="./images/cauldron.png" />
             <h1>The Cauldron</h1>
         </header>
         <nav class="left__menu">
@@ -36,12 +36,15 @@
 
         <section class="cart">
             
-            <button class="cart__button"><img class="cart__logo" src="../static/images/cart.png" />[# of items]</button>
+            <button class="cart__button"><img class="cart__logo" src="./images/cart.png" /></button>
             
         </section>
 
         <main class="items__list">
-            <iframe id="for__anchor" name="test__frame" class="frame__setup" src="./all-potions.html"></iframe>
+                <ul class="categories" th:each="potion: ${potionsModel}">
+                        <li> <img th:src="${potion.ImageUrl}" style="width: 5%"></img><a th:text="${potion.ItemName}"></a> </li>
+                </ul>
+            <!-- <iframe id="for__anchor" name="test__frame" class="frame__setup" src="./all-potions.html"></iframe> -->
         </main>
 
         <footer class="footer">
@@ -49,6 +52,6 @@
         </footer>
     </div>
 </body>
-<script src="../static/js/drop-down.js"></script>
+<script src="./js/drop-down.js"></script>
 
 </html>

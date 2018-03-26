@@ -46,11 +46,23 @@ public class Potion {
 		return itemName;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	
+	public int getItemsInCart(Cart cart) {
+		
+		int totalCount = cart.getQuantity();
+		return totalCount;
+		
+	}
+	
+	protected Potion() {}; 
+	
 	public Potion(String itemName) {
 		this.itemName = itemName;
 	}
 	
-
 	public Potion(String itemName, String classification, String level) {
 		this.itemName = itemName;
 		this.classification = classification;
@@ -64,9 +76,6 @@ public class Potion {
 		this.potionPrice = potionPrice;	
 
 	}
-
-	protected Potion() {}; 
-	
 	
 	public Potion(String itemName, String classification, String level, String imageUrl, double potionPrice) {
 		this.itemName = itemName;
@@ -76,9 +85,6 @@ public class Potion {
 		this.potionPrice = potionPrice;	
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
 
 	@Override
 	public int hashCode() {

@@ -193,4 +193,28 @@ public class CauldronJpaTest {
 		assertThat(cart.getTotalPrice(red, blue, green), is(12.00));
 
 	}
+	
+	@Test
+	public void shouldGetPricesTotalFromCartViaPotionClass() {
+		Potion red = new Potion("Red", "health", "2", 3.00);
+		potionRepo.save(red);
+		Potion blue = new Potion("Super Red", "health", "1", 4.00);
+		potionRepo.save(blue);
+		Potion green = new Potion("Blue", "mana", "1", 5.00);
+		potionRepo.save(green);
+
+		Cart cart = new Cart();
+		
+		cartRepo.save(cart);
+
+		testEntity.flush();
+		testEntity.clear();
+		
+		long cartId = cart.getId();
+		cart = cartRepo.findOne(cartId);
+		cart.placePotions(red, blue, green);
+		int testPotionKnowledge = green.getItemsInCart(cart);
+
+		assertThat(testPotionKnowledge, is(3));
+	}
 }

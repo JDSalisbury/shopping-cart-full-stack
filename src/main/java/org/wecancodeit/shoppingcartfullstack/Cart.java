@@ -42,7 +42,7 @@ public class Cart {
 
 	}
 
-	protected Cart() {
+	public Cart() {
 	}
 
 	public double getTotalPrice(Potion... brews) {
